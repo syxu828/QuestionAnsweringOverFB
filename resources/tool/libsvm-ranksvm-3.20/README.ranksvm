@@ -1,0 +1,67 @@
+This extension of libsvm efficiently trains L2-regularized L2-loss
+rankSVM by a trust region Newton method.
+The implementation details can be found in the following paper:
+Tzu-Ming Kuo, Ching-Pei Lee and Chih-Jen Lin, Large-scale Kernel RankSVM, 2013.
+http://www.csie.ntu.edu.tw/~cjlin/papers/ranksvm/kernel.pdf
+
+Usage
+=====
+
+The usage is the same as libsvm except the only solver is:
+
+-s 0 : L2-regularized L2-loss RankSVM
+
+The file format is slightly different. In this tool we support
+multiple queries in a training file by specifying a feature called
+qid. Each instance takes the following form.
+
+<label> <index1>:<value1> <index2>:<value2> ...
+
+<label> is a real number to indicate the preference level, while
+<index> can be either the string "qid" or an integer starting from
+1. For example, qid:2 shows that the instance is associated with query
+2.  The preference pairs are formed by instances with the same qid. We
+require that either each instance has a qid or none of the instance
+has a qid.
+
+To support the different file format, a modified svm-scale is
+provided. A sample ranking data 'bodyfat_scale_qid' is also available
+in the package.
+
+Examples
+========
+
+> ./svm-train -s 0 bodyfat_scale_qid
+
+Difference from LIBSVM
+======================
+
+Internally the data is stored in the dense format to accelerate the
+training of rankSVM. Thus, this tool may not be able to handle data
+with many sparse features.
+
+This package employs some BLAS subroutines. Users may link optimized
+BLAS (e.g., Intel Math Kernel Library; see explanation below) to speed
+up the training.
+
+Compiling the Package using Intel Math Kernel Library
+=====================================================
+
+If Intel Math Kernel Library (MKL) is considered, after it is
+installed, please use the following command to compile the package.
+
+> make USE_MKL=1 MKL_ROOT={ROOT_DIRECTORY_OF_MKL} MKL_ARCH={MKL_ARCH}
+
+{ROOT_DIRECTORY_OF_MKL} is the path of the root directory of MKL, and
+{MKL_ARCH} is the name of the target architecture such as INTEL64,
+IA32 or MIC.
+
+Compiling the Package without OpenMP
+====================================
+
+Under the default setting, this tool is compiled with OpenMP.  If your
+compiler does not support OpenMP, please use the following command to
+compile the package.
+
+> make NO_OPENMP=1
+
