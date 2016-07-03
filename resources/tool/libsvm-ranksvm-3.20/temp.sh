@@ -1,1 +1,0 @@
-sudo ./svm-predict dev.svm.train dev.svm.train.model predicted
