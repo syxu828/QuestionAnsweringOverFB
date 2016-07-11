@@ -21,7 +21,7 @@ In Proceedings of ACL-2016.
   url = {http://sivareddy.in/papers/kun2016question.pdf},
 }
 
-Instructions
+Instructions to run our code:
 
 1. This is a maven project, to run our code, please download all necessary jars before using our code to reproduce the results.
    After downloading all jars, please include them in the project lib path.
