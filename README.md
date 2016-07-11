@@ -21,5 +21,17 @@ In Proceedings of ACL-2016.
   url = {http://sivareddy.in/papers/kun2016question.pdf},
 }
 
+Instructions
+
+1. This is a maven project, to run our code, please download all necessary jars before using our code to reproduce the results.
+   After downloading all jars, please include them in the project lib path.
+
+2. Our project needs to use the virtuoso engine to query the Freebase. Detail of loading Freebase dump
+   can be found in the url "http://sivareddy.in/load-freebase-dump-into-virtuoso-sparql-sql".
+   
+3. To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference, in a pipeline manner.
+   Specifically, firstly, run Joint_EL_RE/Test.java to perform the KB-based joint inference.
+   Secondly, run InferenceOverWiki/Test.java to perform the Wiki-based inference.
+
 Please contact Kun Xu (xukun@pku.edu.cn) if you have any question.
 -- Kun Xu, July 8th, 2016.
