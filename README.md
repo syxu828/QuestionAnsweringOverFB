@@ -23,8 +23,9 @@ In Proceedings of ACL-2016.
 
 Instructions to run our code:
 
-1. This is a maven project, to run our code, please download all necessary jars before using our code to reproduce the results.
-   After downloading all jars, please include them in the project lib path.
+1. This is a maven project, to run our code, please include all necessary jars in the project lib path.
+   To make things simple, I have put these jars in the folder target/lib except the jar "stanford-english-corenlp-2016-01-10-models.jar" which is too large
+   to be uploaded. You can download the model jar from the url "http://nlp.stanford.edu/software/stanford-english-corenlp-2016-01-10-models.jar".
 
 2. Our project needs to use the virtuoso engine to query the Freebase. Detail of loading Freebase dump
    can be found in the url "http://sivareddy.in/load-freebase-dump-into-virtuoso-sparql-sql".
