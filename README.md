@@ -31,7 +31,8 @@ Instructions to run our code:
    can be found in the url "http://sivareddy.in/load-freebase-dump-into-virtuoso-sparql-sql".
    
 3. To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference, in a pipeline manner.
-   Specifically, firstly, run Joint_EL_RE/Test.java to perform the KB-based joint inference.
+   Before runing our code, you should start the virtuoso engine at port 1111.
+   Then firstly, run Joint_EL_RE/Test.java to perform the KB-based joint inference.
    Secondly, run InferenceOverWiki/Test.java to perform the Wiki-based inference.
 
 Please contact Kun Xu (xukun@pku.edu.cn) if you have any question.
