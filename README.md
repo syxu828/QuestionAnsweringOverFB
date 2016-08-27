@@ -21,19 +21,23 @@ In Proceedings of ACL-2016.
   url = {http://sivareddy.in/papers/kun2016question.pdf},
 }
 
-Instructions to run our code:
+Preparations to run our code:
 
 1. This is a maven project, to run our code, please include all necessary jars in the project lib path.
-   To make things simple, I have put these jars in the folder target/lib except the jar "stanford-english-corenlp-2016-01-10-models.jar" which is too large
-   to be uploaded. You can download the model jar from the url "http://nlp.stanford.edu/software/stanford-english-corenlp-2016-01-10-models.jar".
+   If you can not download these jars, you can directly include the jars in the folder target/lib except for the jar "stanford-english-corenlp-2016-01-10-models.jar".
+   Becaue this jar is too large to be uploaded to the github. But You can download this jar from the url "http://nlp.stanford.edu/software/stanford-english-corenlp-2016-01-10-models.jar".
 
-2. Our project needs to use the virtuoso engine to query the Freebase. Detail of loading Freebase dump
-   can be found in the url "http://sivareddy.in/load-freebase-dump-into-virtuoso-sparql-sql".
-   
-3. To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference, in a pipeline manner.
-   Before runing our code, you should start the virtuoso engine at port 1111.
-   Then firstly, run Joint_EL_RE/Test.java to perform the KB-based joint inference.
-   Secondly, run InferenceOverWiki/Test.java to perform the Wiki-based inference.
+2. Our project needs to use the virtuoso engine to query the Freebase.
+   Thanks the contribution of Siva, the freebase version now can be downloaded from "https://www.dropbox.com/sh/zxv2mos2ujjyxnu/AAACCR4AJ1MMTCe8ElfBN39Ha?dl=0".
+   Note that, you should change the file path of "DatabaseFile,ErrorLogFile,LockFile,TransactionFile,xa_persistent_file,DatabaseFile,TransactionFile" by
+   replacing the directory with the directory you used. If you have any problems in using this tool, please contact me.
+
+3. Before runing our code, you should start the virtuoso engine at port 1111.
+
+Instructions to run our code:
+
+1. To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference.
+   You should perform the inferences in a pipeline literature.
 
 Please contact Kun Xu (xukun@pku.edu.cn) if you have any question.
--- Kun Xu, July 8th, 2016.
+-- Kun Xu, July 27th, 2016.
