@@ -37,7 +37,10 @@ Preparations to run our code:
 Instructions to run our code:
 
 1. To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference.
-   You should perform the inferences in a pipeline literature.
+   You should perform the inferences in the following pipeline literature.
+
+   (a) Perform the Freebase based joint inference by executing Joint_EL_RE/Test.java.
+   (b) Perform the wikipedia based inference by executing InferenceOverWiki/Test.java.
 
 Please contact Kun Xu (xukun@pku.edu.cn) if you have any question.
 -- Kun Xu, July 27th, 2016.
