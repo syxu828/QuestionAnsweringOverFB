@@ -272,7 +272,7 @@ public class FeatureExtractor {
             int exitVal = process.waitFor();
             if( exitVal == 0 ){
             	List<String> lines = FileUtil.readFile("resources/tool/libsvm-3.20/fuzzyRE/predicted");
-				if( lines.size() > 1 )
+				if( lines.size() >= 1 )
             		return Double.parseDouble(lines.get(0));
 				else
 					return score;

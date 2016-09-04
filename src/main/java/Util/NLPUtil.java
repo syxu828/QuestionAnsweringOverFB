@@ -13,9 +13,7 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.util.CoreMap;
 
 import java.io.StringReader;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by miaomiao on 16/2/17.
@@ -80,9 +78,11 @@ public class NLPUtil {
 
     public String extractPOSSequence(String text) {
         StringBuffer sequence = new StringBuffer();
+        if( text.length() == 0 ) return sequence.toString();
         Annotation document = new Annotation(text);
         pipeline.annotate(document);
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+        if( sentences.size() == 0 ) return sequence.toString();
         for (CoreLabel token : sentences.get(0).get(CoreAnnotations.TokensAnnotation.class)) {
             String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
             String word = token.get(CoreAnnotations.TextAnnotation.class);
@@ -96,6 +96,7 @@ public class NLPUtil {
 
     public String extractWordSequence(String text) {
         StringBuffer sequence = new StringBuffer();
+        if( text.length() == 0 ) return sequence.toString();
         Annotation document = new Annotation(text);
         pipeline.annotate(document);
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
@@ -108,6 +109,7 @@ public class NLPUtil {
 
     public String extractLemmaSequence(String text){
         StringBuffer sequence = new StringBuffer();
+        if( text.length() == 0 ) return sequence.toString();
         Annotation document = new Annotation(text);
         pipeline.annotate(document);
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
@@ -121,8 +123,9 @@ public class NLPUtil {
     }
 
     public String extractLemmaSequence(String text, Set<String> stopWords){
-        text = text.replace("�", "");
         StringBuffer sequence = new StringBuffer();
+        if( text.length() == 0 ) return sequence.toString();
+        text = text.replace("�", "");
         Annotation document = new Annotation(text);
         pipeline.annotate(document);
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
@@ -134,6 +137,27 @@ public class NLPUtil {
                 sequence.append(word + " ");
         }
         return sequence.toString().trim();
+    }
+
+    public List<String> extractSentences(String text){
+        StringBuffer tempBuffer = new StringBuffer();
+        for(int i = 0; i < text.length(); i++){
+            if( text.charAt(i) == '.' && text.length() > i+1 && text.charAt(i+1) >= 'A' && text.charAt(i+1) <= 'Z' ){
+                tempBuffer.append(text.charAt(i)+" ");
+            }
+            else
+                tempBuffer.append(text.charAt(i));
+        }
+
+        List<String> result = new ArrayList<String>();
+        Annotation document = new Annotation(tempBuffer.toString());
+        pipeline.annotate(document);
+        List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+        for(CoreMap sentence : sentences){
+            String[] temp = sentence.toString().split(";");
+            result.addAll(Arrays.asList(temp));
+        }
+        return result;
     }
 
     public static void main(String[] args){

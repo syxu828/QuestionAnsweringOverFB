@@ -124,7 +124,8 @@ public class Test {
 
                 Set<String> subjMids = new HashSet<String>();
                 List<String> answers = new ArrayList<String>();
-
+                String rel = new String();
+                String topic_surface = new String();
                 JSONArray array = new JSONArray();
                 for(int i = 0; i < groundedResults.size(); i++){
                     List<Triple> triples = groundedResults.get(i);
@@ -140,6 +141,8 @@ public class Test {
                     List<Triple> rankedTriples = SvmTest.instance.findBestTriple(triples);
                     if( rankedTriples.size() > 0 ) {
                         Triple top_1_triple = rankedTriples.get(0);
+                        rel = top_1_triple.pred;
+                        topic_surface = top_1_triple.subjSurface;
                         subjMids.add(top_1_triple.subj);
                         for (String answer : top_1_triple.answers) {
                             if (answer.startsWith("\"") && answer.endsWith("\""))
@@ -156,6 +159,8 @@ public class Test {
                 JSONObject input = new JSONObject();
                 input.put("question", question);
                 input.put("topics", new ArrayList(subjMids));
+                input.put("topicSurface", topic_surface);
+                input.put("predicate", rel);
                 input.put("answers", answers);
                 wikiInferenceInput.add(input.toString());
             }catch (Exception e){
@@ -216,9 +221,9 @@ public class Test {
     public static void main(String[] args){
         Test test = new Test();
         test.Joint_Inference();
-//        test.rewriteAns();
+        test.rewriteAns();
 
-        //we need to perform the inference apporach for the training data to produce the input for the wiki inference step
+      //  we need to perform the inference apporach for the training data to produce the input for the wiki inference step
 //        String[] testDecomPaths = {"resources/Train/train.questions.decomposed"};
 //        String[] testELPaths = {"resources/Train/train.EL.results"};
 //        String[] testQuestionPaths = {"resources/Train/train.questions"};
@@ -228,6 +233,10 @@ public class Test {
 //        String wikiInferenceInputFilePath = "resources/JointInference/Train/wikiInference.input";
 //        Test inference_on_training = new Test(testDecomPaths, testELPaths, testQuestionPaths, goldQAPaths, testDataFilePath, finalResultFilePath, wikiInferenceInputFilePath);
 //        inference_on_training.Joint_Inference();
-
     }
+
+//    public static void main(String[] args){
+//        Test test = new Test(); test.Joint_Inference();
+//        // test.rewriteAns(); // we need to perform the inference apporach for the training data to produce the input for the wiki inference step // String[] testDecomPaths = {"resources/Train/train.questions.decomposed"}; // String[] testELPaths = {"resources/Train/train.EL.results"}; // String[] testQuestionPaths = {"resources/Train/train.questions"}; // String[] goldQAPaths = {"resources/WebQuestions/train.data", "resources/WebQuestions/dev.data"}; // String testDataFilePath = "resources/JointInference/Train/joint_inference.predicted.69"; // String finalResultFilePath = "resources/JointInference/Train/joint_inference.predicted.final"; // String wikiInferenceInputFilePath = "resources/JointInference/Train/wikiInference.input"; // Test inference_on_training = new Test(testDecomPaths, testELPaths, testQuestionPaths, goldQAPaths, testDataFilePath, finalResultFilePath, wikiInferenceInputFilePath); // inference_on_training.Joint_Inference();
+//    }
 }

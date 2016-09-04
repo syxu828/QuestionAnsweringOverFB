@@ -28,11 +28,11 @@ public class SvmTest {
 		
 		Process process;
 		String[] scale_cmd = { "resources/tool/libsvm-ranksvm-3.20/svm-scale",
-				"-r", "resources/tool/libsvm-ranksvm-3.20/dev.svm.train.param",
+				"-r", "resources/tool/libsvm-ranksvm-3.20/train.param",
 					"resources/tool/libsvm-ranksvm-3.20/test"};
 		String[] rank_cmd = { "resources/tool/libsvm-ranksvm-3.20/svm-predict",
 								"resources/tool/libsvm-ranksvm-3.20/test.scaled",
-									"resources/JointInference/Train/svm.model",
+									"resources/tool/libsvm-ranksvm-3.20/svm.model",
 										"resources/tool/libsvm-ranksvm-3.20/predicted" };
 		
 		try {  
