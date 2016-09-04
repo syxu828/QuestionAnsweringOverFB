@@ -23,9 +23,7 @@ public class Test {
 
     public Test(){
         fbId_wikiId_map = new HashMap<String, List<String>>();
-
         loadFbWikiMapping();
-
         gram_index = new HashMap<String, Integer>();
         List<String> twoGrams = FileUtil.readFile("resources/WikiInference/2grams.txt");
         int gindex = 1;
@@ -143,30 +141,47 @@ public class Test {
     }
 
     public void merge(){
-
         List<String> goldQuestions = new ArrayList<String>();
         List<String> lines = FileUtil.readFile("resources/WikiInference/Test/webquestions-predictions-gold.txt");
+        HashMap<String, List<String>> question_ans = new HashMap<String, List<String>>();
         for(String line:lines){
             String[] info = line.split("\t");
             goldQuestions.add(info[0]);
+            int n = info[1].length()-1;
+            String[] ans = info[1].substring(2, n-1).split("\",\"");
+            question_ans.put(info[0], Arrays.asList(ans));
         }
 
-        List<String> qa_pair = FileUtil.readFile("resources/WikiInference/Test/qa_pair");
-        List<String> predicted = FileUtil.readFile("resources/WikiInference/Test/svm.predicted");
+        List<String> qa_pair = FileUtil.readFile("resources/WikiInference/Test/svm.test.data.ans");
+        List<String> predicted = FileUtil.readFile("resources/WikiInference/Test/predicted.8_30");
         HashMap<String, Set<String>> question_wikiInfered = new HashMap<String, Set<String>>();
         HashMap<String, Set<String>> question_foundEvi = new HashMap<String, Set<String>>();
+        double sum = 0.0;
+        double correct = 0.0;
+        double sum2 = 0.0;
+        double correct2 = 0.0;
         for(int i = 0; i < predicted.size(); i++){
             Double value = Double.parseDouble(predicted.get(i));
             String[] info = qa_pair.get(i).split("\t");
             String question = info[0];
             String ans = info[1];
 
+            if( question_ans.get(question).contains(ans) ){
+                sum++;
+            }else{
+                sum2++;
+            }
             if( value >= 0.6 ) {
                 if (!question_wikiInfered.containsKey(question)) {
                     question_wikiInfered.put(question, new HashSet<String>());
                 }
                 Set<String> answers = question_wikiInfered.get(question);
                 answers.add(ans);
+                List<String> golds = question_ans.get(question);
+                if( golds.contains(ans) ) correct++;
+                else{
+                    correct2++;
+                }
             }
 
             if (!question_foundEvi.containsKey(question)) {
@@ -180,30 +195,21 @@ public class Test {
         HashMap<String, List<String>> question_kbInfered = loadKBInferedResult();
         for(String question:question_kbInfered.keySet()){
             List<String> kbInfered_result = question_kbInfered.get(question);
-
             if( question_wikiInfered.containsKey(question) ){
                 List<String> wikiInfered_result = new ArrayList<String>(question_wikiInfered.get(question));
-
                 if( wikiInfered_result.size() == 0 ){
                     question_finalResult.put(question, kbInfered_result);
                 }
                 else{
                     question_finalResult.put(question, new ArrayList<String>(question_wikiInfered.get(question)));
-
                     double wiki_result_size = wikiInfered_result.size();
                     double kb_result_size = kbInfered_result.size();
-
+                    //For some questions, some answers can not be found in the Wikipeida, so we keep the whole KB results.
                     if( wiki_result_size / kb_result_size >= 0.5 ){
                         question_finalResult.put(question, kbInfered_result);
                     }
                 }
             }else{
-                if( question_foundEvi.containsKey(question) ){
-                    for(String s:question_foundEvi.get(question)){
-                        kbInfered_result.remove(s);
-                    }
-                }
-
                 question_finalResult.put(question, kbInfered_result);
             }
             goldQuestions.remove(question);
@@ -223,6 +229,8 @@ public class Test {
             outputs.add(question+"\t[]");
         }
         FileUtil.writeFile(outputs, outputPath);
+
+        System.err.println(correct+"\t"+sum+"\t"+correct/sum+"\n"+correct2+"\t"+sum2+"\t"+correct2/sum2 + "\n" + correct/(correct+correct2));
     }
 
     public void rewriteAns(){
@@ -270,7 +278,6 @@ public class Test {
 
     public static void main(String[] args){
         Test test = new Test();
-
 //        test.begin();
 
 //      then utilize the regression model to predict for the test data
