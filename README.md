@@ -24,18 +24,21 @@ In Proceedings of ACL-2016.
 
 ## Before installation
 
-Let's setup Freebase server
+Let's setup Freebase server first.
+
 1. Install virtuso. See http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSUbuntuNotes
 2. Download our Freebase version at https://www.dropbox.com/sh/zxv2mos2ujjyxnu/AAACCR4AJ1MMTCe8ElfBN39Ha?dl=0
-3. cd to the folder which you just downloaded
-4. Run pwd
+3. In a terminal, cd to the folder which you just downloaded
+4. Run "pwd"
 5. Replace /dev/shm/vdb/ in virtuoso.ini with the output of Step 4.
 6. Run "virtuoso-t -f"
 
 ## Installation
 
 Run the following commands for installation
+
 > git clone https://github.com/sivareddyg/QuestionAnsweringOverFB.git
+
 > sh install.sh
 
 ## Replicating experiments in the paper
@@ -44,11 +47,14 @@ To reproduce our results, there are two main steps, i.e., KB-based joint inferen
 You should perform the inferences in the following order
 
 1. Perform the Freebase based joint inference.
+
 > java -cp target/classes:target/lib/* Joint_EL_RE/Test
 This will write the output in resources/JointInference/Test/joint_inference.predicted.final
 
-2. Perform the wikipedia based inference by executing InferenceOverWiki/Test.java.
+2. Perform the wikipedia based inference
+
 > java -cp target/classes:target/lib/* InferenceOverWiki/Test
+
 This will write the output in resources/WikiInference/Test/predicted.8_30
 
 ### To train your own models:
@@ -56,4 +62,4 @@ This will write the output in resources/WikiInference/Test/predicted.8_30
 The following command will split questions to subquestions and store them in resources/JointInference/Train/train.data. It also creates a feature file at resources/RE/param/params.69 required to train SVMRank model for relation prediction.
 > java -cp target/classes:target/lib/* Joint_EL_RE/Train
 
-You can train SVMRank using the features to create resources/tool/libsvm-ranksvm-3.20/svm.model required by Joint_EL_RE/Test. [TODO:add the commands]
+To build the relation extraction model resources/tool/libsvm-ranksvm-3.20/svm.model, run the following command. [TODO:add the commands]. This model file is required by Joint_EL_RE/Test
