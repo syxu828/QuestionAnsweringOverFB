@@ -46,19 +46,19 @@ Run the following commands for installation
 To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference.
 You should perform the inferences in the following order
 
-Perform the Freebase based joint inference.
+### Perform the Freebase based joint inference.
 
 > java -cp target/classes:target/lib/* Joint_EL_RE/Test
 
 This will write the output in resources/JointInference/Test/joint_inference.predicted.final
 
-Perform the wikipedia based inference
+### Perform the wikipedia based inference
 
 > java -cp target/classes:target/lib/* InferenceOverWiki/Test
 
 This will write the output in resources/WikiInference/Test/predicted.8_30
 
-### To train your own models:
+## To train your own models:
 
 The following command will split questions to subquestions and store them in resources/JointInference/Train/train.data. It also creates a feature file at resources/RE/param/params.69 required to train SVMRank model for relation prediction.
 > java -cp target/classes:target/lib/* Joint_EL_RE/Train
