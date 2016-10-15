@@ -49,6 +49,7 @@ You should perform the inferences in the following order
 Perform the Freebase based joint inference.
 
 > java -cp target/classes:target/lib/* Joint_EL_RE/Test
+
 This will write the output in resources/JointInference/Test/joint_inference.predicted.final
 
 Perform the wikipedia based inference
