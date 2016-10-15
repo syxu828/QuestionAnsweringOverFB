@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="bravas">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../opt/eclipse"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="bravas.classpath">
+        <pathelement location="target/classes"/>
+        <pathelement location="target/lib/dom4j-1.6.1.jar"/>
+        <pathelement location="target/lib/ejml-0.23.jar"/>
+        <pathelement location="target/lib/guava-19.0.jar"/>
+        <pathelement location="target/lib/hamcrest-core-1.1.jar"/>
+        <pathelement location="target/lib/json-simple-1.1.1.jar"/>
+        <pathelement location="target/lib/junit-4.10.jar"/>
+        <pathelement location="target/lib/log4j-1.2.17.jar"/>
+        <pathelement location="target/lib/lucene-analyzers-common-5.2.0.jar"/>
+        <pathelement location="target/lib/lucene-core-5.2.1.jar"/>
+        <pathelement location="target/lib/lucene-queryparser-5.2.1.jar"/>
+        <pathelement location="target/lib/RelationExtractor-1.0-SNAPSHOT.jar"/>
+        <pathelement location="target/lib/slf4j-api-1.6.6.jar"/>
+        <pathelement location="target/lib/slf4j-log4j12-1.6.6.jar"/>
+        <pathelement location="target/lib/stanford-corenlp-3.6.0.jar"/>
+        <pathelement location="target/lib/stanford-english-corenlp-2016-01-10-models.jar"/>
+        <pathelement location="target/lib/virtjdbc4_1.jar"/>
+        <pathelement location="target/lib/xml-apis-1.0.b2.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="target/classes"/>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="target/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/main/java"/>
+            <classpath refid="bravas.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+</project>

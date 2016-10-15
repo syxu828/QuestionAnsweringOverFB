@@ -21,26 +21,46 @@ In Proceedings of ACL-2016.
   url = {http://sivareddy.in/papers/kun2016question.pdf},
 }
 
-Preparations to run our code:
 
-1. This is a maven project, to run our code, please include all necessary jars in the project lib path.
-   If you can not download these jars, you can directly include the jars in the folder target/lib except for the jar "stanford-english-corenlp-2016-01-10-models.jar".
-   Becaue this jar is too large to be uploaded to the github. But You can download this jar from the url "http://nlp.stanford.edu/software/stanford-english-corenlp-2016-01-10-models.jar".
+## Before installation
 
-2. Our project needs to use the virtuoso engine to query the Freebase.
-   Thanks the contribution of Siva, the freebase version now can be downloaded from "https://www.dropbox.com/sh/zxv2mos2ujjyxnu/AAACCR4AJ1MMTCe8ElfBN39Ha?dl=0".
-   Note that, you should change the file path of "DatabaseFile,ErrorLogFile,LockFile,TransactionFile,xa_persistent_file,DatabaseFile,TransactionFile" by
-   replacing the directory with the directory you used. If you have any problems in using this tool, please contact me.
+Let's setup Freebase server first.
 
-3. Before runing our code, you should start the virtuoso engine at port 1111.
+1. Install virtuso. See http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSUbuntuNotes
+2. Download our Freebase version at https://www.dropbox.com/sh/zxv2mos2ujjyxnu/AAACCR4AJ1MMTCe8ElfBN39Ha?dl=0
+3. In a terminal, cd to the folder which you just downloaded
+4. Run "pwd"
+5. Replace /dev/shm/vdb/ in virtuoso.ini with the output of Step 4.
+6. Run "virtuoso-t -f"
 
-Instructions to run our code:
+## Installation
 
-1. To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference.
-   You should perform the inferences in the following pipeline literature.
+Run the following commands for installation
 
-   (a) Perform the Freebase based joint inference by executing Joint_EL_RE/Test.java.
-   (b) Perform the wikipedia based inference by executing InferenceOverWiki/Test.java.
+> git clone https://github.com/sivareddyg/QuestionAnsweringOverFB.git
 
-Please contact Kun Xu (xukun@pku.edu.cn) if you have any question.
--- Kun Xu, July 27th, 2016.
+> sh install.sh
+
+## Replicating experiments in the paper
+
+To reproduce our results, there are two main steps, i.e., KB-based joint inference and Wiki-based inference.
+You should perform the inferences in the following order
+
+### Perform the Freebase based joint inference.
+
+> java -cp target/classes:target/lib/* Joint_EL_RE/Test
+
+This will write the output in resources/JointInference/Test/joint_inference.predicted.final
+
+### Perform the wikipedia based inference
+
+> java -cp target/classes:target/lib/* InferenceOverWiki/Test
+
+This will write the output in resources/WikiInference/Test/predicted.8_30
+
+## To train your own models:
+
+The following command will split questions to subquestions and store them in resources/JointInference/Train/train.data. It also creates a feature file at resources/RE/param/params.69 required to train SVMRank model for relation prediction.
+> java -cp target/classes:target/lib/* Joint_EL_RE/Train
+
+To build the relation extraction model resources/tool/libsvm-ranksvm-3.20/svm.model, run the following command. [TODO:add the commands]. This model file is required by Joint_EL_RE/Test
